@@ -37,13 +37,13 @@ namespace API.Entities
 
         public string Country { get; set; }
 
-        public ICollection<Photo> Photo { get; set; }
+        public ICollection<Photo> Photos { get; set; }
 
-        public int Getage()
-        {
-            return DateOfBirth.CalculateAge();
+       // public int Getage()
+       // {
+        //    return DateOfBirth.CalculateAge();
             
-        }
+       // }
 
     }
 }
