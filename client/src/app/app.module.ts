@@ -35,7 +35,9 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     TestErrorsComponent,
     NotFoundComponent,
     ServerErrorComponent,
-    MemberCardComponent
+    MemberCardComponent,
+
+
   ],
   imports: [
     BrowserModule,
