@@ -16,18 +16,18 @@ export class MembersService {
 
   getMembers(){
     if(this.members.length > 0) return of(this.members);
-    return this.http.get<Member[]>(this.baseUrl + "users").pipe(
+    return this.http.get<Member[]>(this.baseUrl + 'users').pipe(
       map(members => {
         this.members = members;
         return members;
       })
-    );
+    )
   }
 
-  getMember(username: string){
-    const member = this.members.find( x => x.userName === username);
+  getMember(userName: string){
+    const member = this.members.find( x => x.userName === userName);
     if(member !== undefined) return of(member);
-    return this.http.get<Member>(this.baseUrl + "users/" + username);
+    return this.http.get<Member>(this.baseUrl + 'users/' + userName);
   }
 
   updateMember(member: Member){
@@ -36,6 +36,15 @@ export class MembersService {
         const index = this.members.indexOf(member);
         this.members[index] = member;
       })
-    );
+    )
   }
+
+  SetMainPhoto(photoId: number){
+    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
+  }
+
+  deletePhoto(photoId: number){
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId)
+  }
+
 }

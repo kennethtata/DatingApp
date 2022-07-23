@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-   [Authorize]
+    [Authorize]
     public class UsersController : BaseApiController
     {
         private readonly IUserRepository _userRepository;
@@ -40,16 +40,16 @@ namespace API.Controllers
 
         }
 
-   
-        [HttpGet("{username}")]
+
+        [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
             return await _userRepository.GetMemberAsync(username);
-           
+
         }
 
         [HttpPut]
-        public async Task<ActionResult>UpdateUser(MemberUpdateDto memberUpdateDto)
+        public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUserName());
 
@@ -57,7 +57,7 @@ namespace API.Controllers
 
             _userRepository.Update(user);
 
-            if(await _userRepository.SaveAllAsync())
+            if (await _userRepository.SaveAllAsync())
             {
                 return NoContent();
             }
@@ -70,7 +70,7 @@ namespace API.Controllers
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUserName());
             var result = await _photoService.AddPhotoAsync(file);
 
-            if(result.Error != null)
+            if (result.Error != null)
             {
                 return BadRequest(result.Error.Message);
             }
@@ -81,19 +81,85 @@ namespace API.Controllers
                 PublicId = result.PublicId
             };
 
-            if(user.Photos.Count == 0)
+            if (user.Photos.Count == 0)
             {
                 photo.IsMain = true;
             }
 
             user.Photos.Add(photo);
 
-            if(await _userRepository.SaveAllAsync())
+            if (await _userRepository.SaveAllAsync())
             {
-                return _mapper.Map<PhotoDto>(photo);
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<PhotoDto>(photo));
             }
 
             return BadRequest("Problem adding photo");
+        }
+
+        [HttpPut("set-main-photo/{photoId}")]
+        public async Task<ActionResult> SetMainPhoto(int photoId)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUserName());
+
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+            if (photo.IsMain)
+            {
+                return BadRequest("This is already your main photo");
+
+            }
+            var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+
+            if (currentMain != null)
+            {
+                currentMain.IsMain = false;
+            }
+
+            photo.IsMain = true;
+
+            if (await _userRepository.SaveAllAsync())
+            {
+                return NoContent();
+            }
+
+            return BadRequest("Failed to set main photo");
+
+        }
+
+        [HttpDelete("delete-photo/{photoId}")]
+        public async Task<ActionResult> DeletePhoto(int photoId)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUserName()).ConfigureAwait(false);
+
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+            if (photo == null)
+            {
+                return NotFound();
+            }
+
+            if(photo.IsMain)
+            {
+                return BadRequest("You cannot delete your main photo");
+            }
+
+            if(photo.PublicId != null)
+            {
+                var result = await _photoService.DeletePhotoAsync(photo.PublicId);
+                if(result.Error != null)
+                {
+                    return BadRequest(result.Error.Message);
+                }
+            }
+
+            user.Photos.Remove(photo);
+
+            if(await _userRepository.SaveAllAsync())
+            {
+                return Ok();
+            }
+
+            return BadRequest("Failed to delet Photo");
         }
     }
 }

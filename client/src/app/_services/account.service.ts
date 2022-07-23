@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
+import { ReplaySubject } from 'rxjs';;
 import { map } from 'rxjs/operators';
 import { User } from '../_models/user';
 import { Observable } from 'rxjs';
@@ -10,7 +10,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AccountService {
-
 baseUrl = environment.apiUrl;
 private currentUserSource = new ReplaySubject<User>(1);
 currentUser$ = this.currentUserSource.asObservable();
@@ -18,12 +17,11 @@ currentUser$ = this.currentUserSource.asObservable();
   constructor(private http: HttpClient) { }
 
   login(model: any){
-    return this.http.post(this.baseUrl + "account/login", model).pipe(
+    return this.http.post(this.baseUrl + 'account/login', model).pipe(
       map((reponse: User) => {
          const user = reponse;
       if(user) {
-        localStorage.setItem("user", JSON.stringify(user));
-        this.currentUserSource.next(user);
+        this.setCurrentUser(user);
 
       }
     })
@@ -32,24 +30,24 @@ currentUser$ = this.currentUserSource.asObservable();
 
 register(model: any)
 {
-  return this.http.post(this.baseUrl + "account/register", model).pipe(
+  return this.http.post(this.baseUrl + 'account/register', model).pipe(
     map((user: User) => {
       if(user){
-        localStorage.setItem("user", JSON.stringify(user));
-        this.currentUserSource.next(user);
+        this.setCurrentUser(user);
       }
     })
   )
 }
 
 setCurrentUser(user: User){
+  localStorage.setItem('user', JSON.stringify(user));
   this.currentUserSource.next(user);
 
 }
 
 
 logout(){
-  localStorage.removeItem("user");
+  localStorage.removeItem('user');
   this.currentUserSource.next(null)
 }
 
