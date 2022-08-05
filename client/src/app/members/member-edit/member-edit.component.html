@@ -1,14 +1,11 @@
-
 <div class="row" *ngIf="member">
   <div class="col-4">
     <h1>Your Profile</h1>
-    </div>
     <div class="col-8">
-      <div class="alert alert-info" *ngIf="editform.dirty">
-        <p><strong>Information:</strong> You haave made Changes. Any unsaved changes will be lost</p>
+      <div class="alert alert-info" *ngIf="editForm.dirty">
+        <strong>Information:</strong> You haave made Changes. Any unsaved changes will be lost
       </div>
     </div>
-    <div clas="col-4">
     <div class="card">
       <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knowAs}}"
       class="card-img-top img-thumbnail">
@@ -29,18 +26,18 @@
           <strong>Member since:</strong>
           <p>{{member.created}}</p>
         </div>
-
-      </div>
-      <div class="card-footer">
+     </div>
+   </div>
+   <div class="card-footer">
           <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success btn-block">Save changes</button>
-      </div>
-    </div>
+   </div>
   </div>
+
 
   <div class="col-8">
     <tabset class="member-tabset">
       <tab heading="About {{member.knowAs}}">
-        <form *editForm="ngform" id="editForm" (ngSubmit)="updateMember()">
+        <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMember()">
           <h4>Description</h4>
           <textarea class="form-control" [(ngModel)]="member.introduction" name="introduction" aria-label="introduction" row="6"></textarea>
            <h4 class="mt-2"> Looking for</h4>
@@ -52,7 +49,7 @@
              <label for="city">City:</label>
              <input [(ngModel)]="member.city" type="text" name="city" aria-label="city" class="form-control mx-2">
              <label for="Country">Country:</label>
-             <input [(ngModel)]="member.counrty" type="text" name="Country" aria-label="Country"  class="form-control mx-2">
+             <input [(ngModel)]="member.counrty" type="text" name="country" aria-label="country"  class="form-control mx-2">
            </div>
         </form>
 
@@ -62,4 +59,5 @@
       </tab>
     </tabset>
   </div>
+
 </div>

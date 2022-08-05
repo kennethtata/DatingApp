@@ -17,12 +17,12 @@ export class MemberEditComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
   member: Member;
   user: User;
+  
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any){
     if(this.editForm.dirty){
       $event.returnValue = true;
     }
   }
-
 
   constructor(private accountService: AccountService, private memberService: MembersService,
      private toastr: ToastrService) {
