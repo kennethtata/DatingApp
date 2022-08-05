@@ -21,6 +21,7 @@ namespace API.Entities
         public DateTime DateOfBirth { get; set; }
 
         public string KnownAs { get; set; }
+
         public DateTime ProfileCreated { get; set; } = DateTime.Now;
 
         public DateTime LastActived { get; set; } = DateTime.Now;
