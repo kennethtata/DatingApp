@@ -7,7 +7,7 @@ import { Photo } from "./photo";
         age: number;
         knownAs: string;
         profileCreated: Date;
-        lastActived: Date;
+        lastActive: Date;
         gender: string;
         introduction: string;
         lookingFor: string;

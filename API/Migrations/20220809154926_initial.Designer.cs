@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220712144413_InitialCreate1")]
-    partial class InitialCreate1
+    [Migration("20220809154926_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,7 +49,7 @@ namespace API.Migrations
                     b.Property<string>("KnownAs")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastActived")
+                    b.Property<DateTime>("LastActive")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LookingFor")
