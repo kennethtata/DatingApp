@@ -6,7 +6,12 @@
         <i class="fa fa-user"></i></button></li>
       <li class="list-inline-item"><button aria-label="heart" (click)="addLike(member)" class="btn btn-secondary">
         <i class="fa fa-heart"></i></button></li>
-      <li class="list-inline-item"><button aria-label="envelope" class="btn btn-secondary">
+      <li class="list-inline-item">
+        <button
+          routerLink='/members/{{member.userName}}'
+          [queryParams]='{tab: 3}'
+          aria-label="envelope"
+          class="btn btn-primary">
         <i class="fa fa-envelope"></i></button></li>
     </ul>
   </div>
