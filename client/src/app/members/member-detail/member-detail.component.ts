@@ -55,6 +55,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
    ]
    this.galleryImages = this.getImages();
   }
+
 getImages(): NgxGalleryImage[]{
 const imageUrls = [];
 for(const photo of this.member.photos){

@@ -16,7 +16,7 @@ export class MessageService {
   hubUrl = environment.hubUrl;
   private hubConnection: HubConnection;
   private messageThreadSource = new BehaviorSubject<Message[]>([]);
-messageThread$ = this.messageThreadSource.asObservable();
+  messageThread$ = this.messageThreadSource.asObservable();
   constructor(private http: HttpClient) {}
 
   createHubConnection(user: User, otherUserName: string)
@@ -62,7 +62,6 @@ messageThread$ = this.messageThreadSource.asObservable();
     {
       this.hubConnection.stop();
     }
-
   }
 
   getMessage(pageNumber, pageSize, container)

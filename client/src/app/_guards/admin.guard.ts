@@ -19,7 +19,7 @@ constructor(private accountService: AccountService, private toastr: ToastrServic
         if(user.roles.includes('Admin') || user.roles.includes('Moderator')){
           return true;
         }
-        this.toastr.error('You cannot rnter this area');
+        this.toastr.error('You cannot enter this area');
       })
     )
   }

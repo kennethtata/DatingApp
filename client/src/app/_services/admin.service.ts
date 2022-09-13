@@ -12,7 +12,7 @@ baseUrl= environment.apiUrl;
   constructor(private http: HttpClient) { }
 
   getUsersWithRoles(){
-    return this.http.get<Partial<User[]>>(this.baseUrl + 'admin/users-with-roles')
+    return this.http.get<Partial<User[]>>(this.baseUrl + 'admin/users-with-roles');
   }
 
   updateUserRoles(userName: string, roles: string[]){

@@ -20,8 +20,8 @@ export class UserManagementComponent implements OnInit {
   }
 
   getUsersWithRoles(){
-    this.adminService.getUsersWithRoles().subscribe(user => {
-      this.users = this.users;
+    this.adminService.getUsersWithRoles().subscribe(users => {
+      this.users = users;
     })
   }
 
@@ -69,7 +69,7 @@ private getRolesArray(user){
     if(!isMatch)
     {
       role.checked = false;
-      role.push(role);
+      roles.push(role);
     }
   })
   return roles;
