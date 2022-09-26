@@ -18,8 +18,8 @@ import { AdminGuard } from './_guards/admin.guard';
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {
-    path: "",
-    runGuardsAndResolvers: "always",
+    path: '',
+    runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children:
     [
@@ -31,10 +31,10 @@ const routes: Routes = [
       {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]},
     ]
   },
-  {path: "errors", component: TestErrorsComponent},
-  {path: "not-found", component: NotFoundComponent},
-  {path: "server-error", component: ServerErrorComponent},
-  {path: '**', component: NotFoundComponent, pathMatch: "full"},
+  {path: 'errors', component: TestErrorsComponent},
+  {path: 'not-found', component: NotFoundComponent},
+  {path: 'server-error', component: ServerErrorComponent},
+  {path: '**', component: NotFoundComponent, pathMatch: 'full'},
 
 ];
 

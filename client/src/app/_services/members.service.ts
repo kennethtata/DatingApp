@@ -48,7 +48,7 @@ export class MembersService {
     {
       return of(response);
     }
-    console.log(Object.values(userParams).join('-'))
+
     let params = getPaginationHeaders(userParams.pageNumber,userParams.pageSize);
 
     params = params.append('minAge', userParams.minAge.toString());
@@ -65,7 +65,7 @@ export class MembersService {
 
   getMember(userName: string){
    const member = [...this.memberCache.values()]
-   .reduce((arr,element) => arr.concat(element.result), [])
+   .reduce((arr,elem) => arr.concat(elem.result), [])
    .find((member: Member) => member.userName === userName);
 
    if(member)
@@ -101,9 +101,7 @@ export class MembersService {
   getLikes(predicate: string, pageNumber, pageSize){
     let params = getPaginationHeaders(pageNumber,pageSize);
     params = params.append('predicate',predicate);
-    return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params,this.http);
+    return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
   }
-
-
 
 }

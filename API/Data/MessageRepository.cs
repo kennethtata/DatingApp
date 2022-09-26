@@ -108,8 +108,6 @@ namespace API.Data
                 {
                     message.DateRead = DateTime.UtcNow;
                 }
-
-               
             }
 
             return messages;

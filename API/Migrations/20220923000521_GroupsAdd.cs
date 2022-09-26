@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    public partial class identityAdded : Migration
+    public partial class GroupsAdd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,7 @@ namespace API.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     KnownAs = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProfileCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastActive = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastActived = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Introduction = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LookingFor = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -56,6 +56,17 @@ namespace API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Groups",
+                columns: table => new
+                {
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Groups", x => x.Name);
                 });
 
             migrationBuilder.CreateTable(
@@ -241,6 +252,25 @@ namespace API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Connections",
+                columns: table => new
+                {
+                    ConnectionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GroupName = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Connections", x => x.ConnectionId);
+                    table.ForeignKey(
+                        name: "FK_Connections_Groups_GroupName",
+                        column: x => x.GroupName,
+                        principalTable: "Groups",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -281,6 +311,11 @@ namespace API.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Connections_GroupName",
+                table: "Connections",
+                column: "GroupName");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Likes_LikedUserId",
                 table: "Likes",
                 column: "LikedUserId");
@@ -319,6 +354,9 @@ namespace API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Connections");
+
+            migrationBuilder.DropTable(
                 name: "Likes");
 
             migrationBuilder.DropTable(
@@ -329,6 +367,9 @@ namespace API.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Groups");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

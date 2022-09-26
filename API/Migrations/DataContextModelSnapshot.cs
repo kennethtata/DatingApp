@@ -90,7 +90,7 @@ namespace API.Migrations
                     b.Property<string>("KnownAs")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastActive")
+                    b.Property<DateTime>("LastActived")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("LockoutEnabled")
@@ -381,7 +381,8 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Entities.Group", null)
                         .WithMany("Connections")
-                        .HasForeignKey("GroupName");
+                        .HasForeignKey("GroupName")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("API.Entities.Message", b =>

@@ -58,7 +58,7 @@ import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.c
     UserManagementComponent,
     PhotoManagementComponent,
     RolesModalComponent,
-    ConfirmDialogComponent,
+    ConfirmDialogComponent
 
 
   ],
@@ -70,7 +70,7 @@ import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.c
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

@@ -1,6 +1,4 @@
-.drop
-down
--toggle, .dropdown-item {
+.dropdown-toggle, .dropdown-item {
   cursor: pointer;
 }
 

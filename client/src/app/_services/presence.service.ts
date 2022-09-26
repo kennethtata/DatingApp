@@ -58,7 +58,7 @@ createHubConnection(user: User){
 
 }
 
-stopHubconnection() {
+stopHubConnection() {
   this.hubConnection.stop().catch(error => console.log(error));
 }
 

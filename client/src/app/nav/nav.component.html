@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container">
-    <a class="navbar-brand" routerLink="/" routerLinkActive="active">Tag Your It</a>
+    <a class="navbar-brand" routerLink="/" routerLinkActive="active">Kiss Or Freak</a>
 
-      <ul class="navbar-nav me-auto mb-2 mb-md-0" >
+      <ul class="navbar-nav me-auto" >
         <ng-container  *ngIf="accountService.currentUser$ | async">
           <li class="nav-item">
             <a class="nav-link"  routerLink='/members' routerLinkActive='active'>Matches</a>
@@ -11,10 +11,10 @@
             <a class="nav-link"  routerLink='/lists' routerLinkActive='active'>Lists</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"   routerLink='/messages' routerLinkActive='active'>Messages</a>
+            <a class="nav-link"   routerLink='/messages'routerLinkActive='active'>Messages</a>
           </li>
           <li *appHasRole='["Admin", "Moderator"]' class="nav-item">
-            <a class="nav-link"   routerLink='/admin' routerLinkActive='active'>Admin</a>
+            <a class="nav-link"   routerLink='/admin'routerLinkActive='active'>Admin</a>
           </li>
           <li class="nav-item">
             <a class="nav-link"   routerLink='/errors' routerLinkActive='active'>Errors</a>
@@ -30,15 +30,15 @@
         <img src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.userName}}">
           <a class="dropdown-toggle text-light ml-2" dropdownToggle> Welcome {{user.knownAs || user.userName | titlecase}} </a>
          <div class="dropdown-menu mt-3" *dropdownMenu>
-             <a routerLink="/member/edit" class="dropdown-item">Edit Profiel</a>
-             <div class="dropdown-divder"></div>
+             <a routerLink='/member/edit' class="dropdown-item">Edit Profiel</a>
+             <div class="dropdown-divider"></div>
             <a class="dropdown-item" (click)="logout()">Log Out</a>
          </div>
       </div>
 
 
 
-      <form  *ngIf="(accountService.currentUser$ | async) === null" class="d-flex" role="search"
+      <form  *ngIf="(accountService.currentUser$ | async) === null"  #loginForm="ngForm" class="d-flex mt-2 mt-md-0"
       (ngSubmit)="login()"
       autocomplete="off">
         <input
@@ -53,8 +53,7 @@
         class="form-control me-2"
         type='password'
         placeholder="Password" >
-        <button class="btn btn-secondary" type="submit">Login</button>
+        <button class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
       </form>
-
     </div>
 </nav>

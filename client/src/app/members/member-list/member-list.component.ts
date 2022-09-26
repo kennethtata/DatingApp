@@ -15,7 +15,7 @@ members: Member[];
 pagination: Pagination;
 userParams: UserParams;
 user: User;
-genderList = [{value: 'female', display:'Female'},{value: 'male', display: 'Male'}];
+genderList = [{value: 'male', display: 'Males'},{value: 'female', display:'Females'}];
 
   constructor(private memberService: MembersService) {
    this.userParams = this.memberService.getUserParams();

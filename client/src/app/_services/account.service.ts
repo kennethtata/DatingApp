@@ -55,7 +55,7 @@ setCurrentUser(user: User){
 logout(){
   localStorage.removeItem('user');
   this.currentUserSource.next(null)
-  this.presence.stopHubconnection();
+  this.presence.stopHubConnection();
 }
 
 getDecodedToken(token){

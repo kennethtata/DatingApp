@@ -1,4 +1,3 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
@@ -8,7 +7,6 @@ import { Member } from 'src/app/_models/member';
 import { Message } from 'src/app/_models/message';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
-import { MembersService } from 'src/app/_services/members.service';
 import { MessageService } from 'src/app/_services/message.service';
 import { PresenceService } from 'src/app/_services/presence.service';
 

@@ -1,1 +1,18 @@
-<p>photo-management works!</p>
+<div class="row">
+  <table class="table">
+      <thead>
+          <tr>
+              <th style="width: 30%;">User Photo</th>
+              <th style="width: 30%;"></th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let user of users">
+              <td>{{user.photoUrl}}</td>
+              <td>{{user.roles}}</td>
+              <td><button (click)="openRolesModal(user)" class="btn btn-info">Edit Photo</button></td>
+          </tr>
+      </tbody>
+
+  </table>
+</div>

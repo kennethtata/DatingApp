@@ -8,6 +8,6 @@ margin-bottom: 2px;
   border: dotted 3px red;
 }
 
-input[type-file]{
+input[type=file]{
   color: transparent
 }

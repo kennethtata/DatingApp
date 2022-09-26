@@ -8,10 +8,10 @@ export class UserParams
   maxAge = 99;
   pageNumber = 1;
   pageSize = 5;
-  orderBy = 'lastActive';
+  orderBy = 'lastActived';
 
   constructor(user: User)
   {
-    this.gender = user.gender === 'female' ? 'male' : 'female';
+    this.gender = user.gender === 'male' ? 'female' : 'male';
   }
 }

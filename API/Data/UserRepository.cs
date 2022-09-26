@@ -46,7 +46,7 @@ namespace API.Data
             query = userParams.OrderBy switch
             {
                 "created" => query.OrderByDescending(u => u.ProfileCreated),
-                _ => query.OrderByDescending(u => u.LastActive)
+                _ => query.OrderByDescending(u => u.LastActived)
             };
             return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper
                 .ConfigurationProvider).AsNoTracking(),
@@ -65,11 +65,11 @@ namespace API.Data
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task<AppUser> GetUserByUserNameAsync(string username)
+        public async Task<AppUser> GetUserByUserNameAsync(string userName)
         {
             return await _context.Users
                 .Include(p => p.Photos)
-                .SingleOrDefaultAsync(x => x.UserName == username);
+                .SingleOrDefaultAsync(x => x.UserName == userName);
         }
 
         public async Task<string> getUserGender(string userName)
