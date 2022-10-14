@@ -14,6 +14,8 @@ import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.gu
 import { MemberDetailedResolver } from './_resolvers/member-detailed.resolver';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { AdminGuard } from './_guards/admin.guard';
+import { LiveComponent } from './live-stream/live/live.component';
+import { MemberDetailStreamComponent } from './members/member-detail-stream/member-detail-stream.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -28,6 +30,8 @@ const routes: Routes = [
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'lists', component: ListsComponent},
       {path: 'messages', component: MessagesComponent},
+      {path: 'live', component: LiveComponent},
+      {path: 'live/:username', component: MemberDetailStreamComponent,resolve: {member: MemberDetailedResolver}},
       {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]},
     ]
   },

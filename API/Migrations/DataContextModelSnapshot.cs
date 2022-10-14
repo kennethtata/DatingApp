@@ -90,7 +90,7 @@ namespace API.Migrations
                     b.Property<string>("KnownAs")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastActived")
+                    b.Property<DateTime>("LastActive")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("LockoutEnabled")

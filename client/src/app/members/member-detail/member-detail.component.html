@@ -1,8 +1,9 @@
 <div class="row">
   <div class="col-4">
-    <div class="card">
+    <div class= "card border-primary mb-3" style="max-width: 20rem;">
+      <div class="card-header">{{member.knownAs}}</div>
       <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}"
-      class="card-img-top img-thumbnail">
+      class="card border-primary mb-3 card-img-top img-thumbnail">
       <div class="card-body">
         <div class="mb-2" *ngIf="(presence.onlineUsers$ | async).includes(member.userName)">
           <i class="fa fa-user-circle.text-success"></i>Online Now

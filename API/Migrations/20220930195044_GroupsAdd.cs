@@ -31,7 +31,7 @@ namespace API.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     KnownAs = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProfileCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastActived = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastActive = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Introduction = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LookingFor = table.Column<string>(type: "nvarchar(max)", nullable: true),

@@ -8,9 +8,9 @@
       </div>
   </div>
   <div class="col-4">
-      <div class="card">
+      <div class= "card border-primary mb-3" style="max-width: 20rem;">
           <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}"
-              class="card-img-top img-thumbnail">
+              class="card border-primary mb-3 card-img-top img-thumbnail">
           <div class="card-body">
               <div>
                   <strong>Location:</strong>
@@ -26,7 +26,7 @@
               </div>
           </div>
           <div class="card-footer">
-              <button [disabled]="!editForm.dirty" form="editForm" type="submit" class="btn btn-success btn-block">Save Changes</button>
+              <button [disabled]="!editForm.dirty" form="editForm" type="submit" class="btn btn-outline-primary"><h5>Save Changes</h5></button>
           </div>
       </div>
   </div>
