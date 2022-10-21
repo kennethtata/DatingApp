@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220930195044_GroupsAdd")]
-    partial class GroupsAdd
+    [Migration("20221020081316_AddBlogCreatedTimestamp")]
+    partial class AddBlogCreatedTimestamp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

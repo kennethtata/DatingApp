@@ -13,7 +13,7 @@ namespace API.Data
         {
             if(await userManager.Users.AnyAsync()) return;
 
-            var userData = await System.IO.File.ReadAllTextAsync("C:\\Users\\KenCurtis\\source\\Personal\\DatingApp\\API\\Data\\UserSeedData.json");
+            var userData = await System.IO.File.ReadAllTextAsync("C:\\Users\\kennC\\source\\repos\\DatingApp\\API\\Data\\UserSeedData.json");
             var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
           
             if (users == null) return;
