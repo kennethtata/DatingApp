@@ -23,6 +23,7 @@ export class MessageService {
 
   createHubConnection(user: User, otherUserName: string)
   {
+    this.busyService.busy();
     this.hubConnection = new HubConnectionBuilder()
     .withUrl(this.hubUrl + 'message?user=' + otherUserName,{
       accessTokenFactory: () => user.token
