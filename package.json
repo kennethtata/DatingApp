@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@angular-devkit/build-angular": "^15.0.0",
     "@angular/animations": "^14.0.2",
     "primeicons": "^5.0.0",
     "primeng": "^13.4.1"
