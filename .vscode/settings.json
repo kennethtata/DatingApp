@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/6fdd3d92-c02a-45ee-910d-8643409bfb91/AppServices/subscriptions/6fdd3d92-c02a-45ee-910d-8643409bfb91/resourceGroups/JustDoU_group/providers/Microsoft.Web/sites/JustDoU",
+    "appService.deploySubpath": "publish"
+}
