@@ -15,22 +15,25 @@ using System.Text;
 using API.Extensions;
 using API.Middleware;
 using API.SignalR;
+using System;
 
 namespace API
 {
     public class Startup
     {
         private readonly IConfiguration _config;
-        public Startup(IConfiguration config)
+        private readonly bool IsDevelopment;
+        public Startup(IConfiguration config, IWebHostEnvironment env)
         {
             _config = config;
+            IsDevelopment = env.IsDevelopment();
         }
 
        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {   var connString = "";
             services.AddApplicationServices(_config);
 
             services.AddControllers();
@@ -41,11 +44,41 @@ namespace API
             services.AddCors();
             services.AddIdentityServices(_config);
             services.AddSignalR();
+
+            if (IsDevelopment) 
+            { 
+                 connString = _config.GetConnectionString("DefaultConnection");
+            
+            }  
+            else 
+            {
+                  // Use connection string provided at runtime by flyio.
+                var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+                 // Parse connection URL to connection string for Npgsql
+                 connUrl = connUrl.Replace("postgres://", string.Empty);
+                 var pgUserPass = connUrl.Split("@")[0];
+                 var pgHostPortDb = connUrl.Split("@")[1];
+                 var pgHostPort = pgHostPortDb.Split("/")[0];
+                 var pgDb = pgHostPortDb.Split("/")[1];
+                 var pgUser = pgUserPass.Split(":")[0];
+                 var pgPass = pgUserPass.Split(":")[1];
+                 var pgHost = pgHostPort.Split(":")[0];
+                 var pgPort = pgHostPort.Split(":")[1];
+
+                 connString = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
+            }
+            
+            services.AddDbContext<DataContext>(opt =>
+            {
+             opt.UseNpgsql(connString);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
