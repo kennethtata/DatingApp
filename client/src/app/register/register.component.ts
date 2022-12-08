@@ -15,8 +15,8 @@ import { AccountService } from '../_services/account.service';
 export class RegisterComponent implements OnInit {
 
 @Output() cancelRegister = new EventEmitter();
-registerForm: FormGroup;
-maxDate: Date;
+registerForm: FormGroup = new FormGroup({});
+maxDate: Date = new Date();
 validationErrors: string[] = [];
 
   constructor(private accountService: AccountService,private toastr: ToastrService,
@@ -25,7 +25,6 @@ validationErrors: string[] = [];
 
   ngOnInit(): void {
     this.intitializeForm();
-    this.maxDate = new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear() -18);
   }
 
@@ -33,8 +32,8 @@ validationErrors: string[] = [];
   {
     this.registerForm = this.fb.group({
     gender: ['male'],
-    userName: ['', Validators.required],
-    KnownAs: ['', Validators.required],
+    username: ['', Validators.required],
+    knownAs: ['', Validators.required],
     dateOfBirth: ['', Validators.required],
     city: ['', Validators.required],
     country: ['', Validators.required],
@@ -52,18 +51,29 @@ validationErrors: string[] = [];
       return control?.value === control?.parent?.controls[matchTo].value? null : {isMatching: true}
     }
   }
- register(){
-  this.accountService.register(this.registerForm.value).subscribe(response => {
-   this.router.navigateByUrl('/members');
- },error => {
-    this.validationErrors = error;
+  register() {
+    const dob = this.getDateOnly(this.registerForm.controls['dateOfBirth'].value);
+    const values = { ...this.registerForm.value, dateOfBirth: dob };
+    this.accountService.register(values).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/members')
+      },
+      error: error => {
+        this.validationErrors = error
+      }
+    })
+  }
 
- })
- }
+  cancel() {
+    this.cancelRegister.emit(false);
+  }
 
- cancel(){
-  this.cancelRegister.emit(false);
- }
+  private getDateOnly(dob: string | undefined) {
+    if (!dob) return;
+    let theDob = new Date(dob);
+    return new Date(theDob.setMinutes(theDob.getMinutes() - theDob.getTimezoneOffset()))
+      .toISOString().slice(0, 10);
+  }
 
 
 }
