@@ -13,9 +13,9 @@ namespace API.Entities
 
         public string KnownAs { get; set; }
 
-        public DateTime ProfileCreated { get; set; } = DateTime.Now;
+        public DateTime ProfileCreated { get; set; } = DateTime.UtcNow;
 
-        public DateTime LastActive { get; set; } = DateTime.Now;
+        public DateTime LastActive { get; set; } = DateTime.UtcNow;
 
         public string  Gender { get; set; }
 

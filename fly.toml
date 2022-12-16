@@ -1,6 +1,6 @@
-# fly.toml file generated for justdou on 2022-12-03T15:23:48-07:00
+# fly.toml file generated for ynot on 2022-12-09T14:03:43-07:00
 
-app = "justdou"
+app = "ynot"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []

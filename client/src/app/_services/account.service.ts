@@ -30,13 +30,12 @@ currentUser$ = this.currentUserSource.asObservable();
   )
 }
 
-register(model: any)
-{
-  return this.http.post(this.baseUrl + 'account/register', model).pipe(
-    map((user: User) => {
-      if(user){
+
+register(model: any) {
+  return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
+    map(user => {
+      if (user) {
         this.setCurrentUser(user);
-        this.presence.createHubConnection(user);
       }
     })
   )
@@ -48,7 +47,7 @@ setCurrentUser(user: User){
   Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
   localStorage.setItem('user', JSON.stringify(user));
   this.currentUserSource.next(user);
-
+  this.presence.createHubConnection(user);
 }
 
 
