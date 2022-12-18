@@ -1,4 +1,7 @@
+import { BreakpointObserver,Breakpoints } from '@angular/cdk/layout';
+import { Platform } from '@angular/cdk/platform';
 import { Component, OnInit } from '@angular/core';
+import { map, Observable, observable } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Pagination } from 'src/app/_models/pagination';
 import { User } from 'src/app/_models/user';
@@ -15,14 +18,24 @@ members: Member[];
 pagination: Pagination;
 userParams: UserParams;
 user: User;
+isWideScreen$: Observable<boolean>;
 genderList = [{value: 'male', display: 'Males'},{value: 'female', display:'Females'}];
 
-  constructor(private memberService: MembersService) {
+  constructor(private memberService: MembersService, private breakpointObserver: BreakpointObserver, public platform: Platform) {
    this.userParams = this.memberService.getUserParams();
 
   }
 
   ngOnInit(): void {
+    if(this.breakpointObserver.isMatched('(max-width: 600px)'))
+    {
+      console.info('The screeen width is less thena 600px');
+      console.log('The screeen width is less thena 600px');
+    }
+
+    this.isWideScreen$ = this.breakpointObserver
+    .observe([Breakpoints.Handset]).pipe(map(({matches}) => matches));
+
     this.loadMembers();
   }
 

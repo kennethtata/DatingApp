@@ -36,6 +36,13 @@ import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.c
 import { LiveComponent } from './live-stream/live/live.component';
 import { MemberStreamComponent } from './members/member-stream/member-stream.component';
 import { MemberDetailStreamComponent } from './members/member-detail-stream/member-detail-stream.component';
+import { LayoutModule } from '@angular/cdk/layout';
+
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -77,6 +84,12 @@ import { MemberDetailStreamComponent } from './members/member-detail-stream/memb
     ReactiveFormsModule,
     SharedModule,
     NgxSpinnerModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    LayoutModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
