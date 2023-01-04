@@ -47,7 +47,7 @@ setCurrentUser(user: User){
   Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
   localStorage.setItem('user', JSON.stringify(user));
   this.currentUserSource.next(user);
-  this.presence.createHubConnection(user);
+  this.presence.createHubConnection(user); //user are connected to signalr when they sign in
 }
 
 

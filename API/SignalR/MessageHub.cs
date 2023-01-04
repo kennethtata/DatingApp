@@ -33,7 +33,7 @@ namespace API.SignalR
             var otherUser = httpContext.Request.Query["user"].ToString(); // for later....we could add an array and add users so we could have more than two use plus check is that user is liked by you and if so let them in
             var groupName = GetGroupName(Context.User.GetUserName(), otherUser);
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-            var group = await AddToGroup(groupName);
+            var group = await AddToGroup(groupName);//this is howwe add users to groups
             await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
 
             var messages = await _unitOfWork.MessageRepository.GetMessageThread(Context.User.GetUserName(), otherUser);
@@ -89,7 +89,7 @@ namespace API.SignalR
             }
             else
             {
-                //sends notification to user that they have a message
+                //sends notification to user that they have a message..they could be in a diffenrent hub
                 var connections = await _tracker.GetConnectionsForUser(recipient.UserName);
                 if(connections != null)
                 {
@@ -127,6 +127,8 @@ namespace API.SignalR
 
         private async Task<Group> RemoveFromMessageGroup()
         {
+            //can use this to get the groups that are connected   var group = await _unitOfWork.MessageRepository.GetGroupForConnection(Context.ConnectionId);
+            //and then add to that group by using group.connections.add(connectionId)
             var group = await _unitOfWork.MessageRepository.GetGroupForConnection(Context.ConnectionId);
             var connection = group.Connections.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
             _unitOfWork.MessageRepository.RemoveConnection(connection);

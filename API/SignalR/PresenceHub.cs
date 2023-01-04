@@ -15,6 +15,8 @@ namespace API.SignalR
         {
             _tracker = tracker;
         }
+
+        //need to create this method for the streaming but use client.All in the onConnectedAsync method to get all online users in the stream
         public override async Task OnConnectedAsync()
         {
             var isOnline = await _tracker.UserConnected(Context.User.GetUserName(), Context.ConnectionId);
@@ -24,7 +26,7 @@ namespace API.SignalR
             }
 
             var currentUsers = await _tracker.GetOnlineUsers();
-            await Clients.Caller.SendAsync("GetOnlineUsers", currentUsers);
+            await Clients.Caller.SendAsync("GetOnlineUsers", currentUsers); //we can change Clients.Caller to Clients.All to get all connected users
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
