@@ -20,7 +20,7 @@ export class LivestreamService {
   private messageThreadSource = new BehaviorSubject<Message[]>([]);
   messageThread$ = this.messageThreadSource.asObservable();
 
-  //tutorialcode
+  //tutorial code
   private newPeer = new Subject<User>();
   public newPeer$ = this.newPeer.asObservable();
 
@@ -38,7 +38,7 @@ export class LivestreamService {
   createHubConnection(user: User, otherUserName: string) {
     this.busyService.busy();
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(this.hubUrl + 'streaming?user=' + otherUserName, {
+      .withUrl(this.hubUrl + 'livestream?user=' + otherUserName, {
         accessTokenFactory: () => user.token,
       })
       .withAutomaticReconnect()
@@ -49,7 +49,7 @@ export class LivestreamService {
       .catch((error) => console.log(error))
       .finally(() => this.busyService.idle());
 
-    this.hubConnection.on('ReceiveMessageThread', (messages) => {
+    this.hubConnection.on('ReceiveLiveStreamMessageThread', (messages) => {
       this.messageThreadSource.next(messages);
     });
 
@@ -94,5 +94,9 @@ export class LivestreamService {
 
   public sayHello(userName: string, user: string): void {
     this.hubConnection.invoke('HelloUser', userName, user);
+  }
+
+  public sayHello2(userName: string): void {
+    this.hubConnection.invoke('HelloUser', userName);
   }
 }

@@ -33,7 +33,7 @@ namespace API.SignalR
             var groupName = GetGroupName(Context.User.GetUserName(), otherUser);
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
             var group = await AddToGroup(groupName);//this is how we add users to groups
-            await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
+            await Clients.Group(groupName).SendAsync("UpdatedLiveStreamGroup", group);
 
             var messages = await _unitOfWork.LiveStreamRepository.GetMessageThread(Context.User.GetUserName(), otherUser);
 
@@ -42,13 +42,13 @@ namespace API.SignalR
                 await _unitOfWork.Complete();
             }
 
-            await Clients.All.SendAsync("ReceiveMessageThread", messages);
+            await Clients.All.SendAsync("ReceiveLiveStreamMessageThread", messages);
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             var group = await RemoveFromStreamGroup();
-            await Clients.Group(group.Name).SendAsync("UpdatedGroup", group);
+            await Clients.Group(group.Name).SendAsync("UpdatedLiveStreamGroup", group);
             await base.OnDisconnectedAsync(exception);
         }
 
@@ -119,7 +119,7 @@ namespace API.SignalR
 
             if (await _unitOfWork.Complete())
             {
-                await Clients.Group(groupName).SendAsync("NewMessage", _mapper.Map<MessageDto>(message));
+                await Clients.Group(groupName).SendAsync("NewLiveStreamMessage", _mapper.Map<MessageDto>(message));
             }
 
         }
@@ -165,27 +165,23 @@ namespace API.SignalR
             return stringCompare ? $"{caller}-{other}" : $"{other}-{caller}";
         }
 
-        //public async Task NewUser(string username)
-        //{
-        //    var userInfo = new Connection() { UserName = username, ConnectionId = Context.ConnectionId };
-        //    await Clients.Others.SendAsync("NewUserArrived", JsonSerializer.Serialize(userInfo));
-        //}
+        public async Task NewUser(string username)
+        {
+            var userInfo = new Connection() { UserName = username, ConnectionId = Context.ConnectionId };
+            await Clients.Others.SendAsync("NewUserArrived", JsonSerializer.Serialize(userInfo));
+        }
 
-        //public async Task HelloUser(string userName, string user)
-        //{
-        //    var userInfo = new Connection() { UserName = userName, ConnectionId = Context.ConnectionId };
-        //    await Clients.Client(user).SendAsync("UserSaidHello", JsonSerializer.Serialize(userInfo));
-        //}
+        public async Task HelloUser(string userName, string user)
+        {
+            var userInfo = new Connection() { UserName = userName, ConnectionId = Context.ConnectionId };
+            await Clients.Client(user).SendAsync("UserSaidHello", JsonSerializer.Serialize(userInfo));
+        }
 
-        //public async Task SendSignal(string signal, string user)
-        //{
-        //    await Clients.Client(user).SendAsync("SendSignal", Context.ConnectionId, signal);
-        //}
+        public async Task SendSignal(string signal, string user)
+        {
+            await Clients.Client(user).SendAsync("SendSignal", Context.ConnectionId, signal);
+        }
 
-        //public override async Task OnDisconnectedAsync(System.Exception exception)
-        //{
-        //    await Clients.All.SendAsync("UserDisconnect", Context.ConnectionId);
-        //    await base.OnDisconnectedAsync(exception);
-        //}
+       
     }
 }

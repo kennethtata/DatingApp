@@ -29,8 +29,8 @@ genderList = [{value: 'male', display: 'Males'},{value: 'female', display:'Femal
   ngOnInit(): void {
     if(this.breakpointObserver.isMatched('(max-width: 600px)'))
     {
-      console.info('The screeen width is less thena 600px');
-      console.log('The screeen width is less thena 600px');
+      console.info('The screen width is less then 600px');
+      console.log('The screen width is less then 600px');
     }
 
     this.isWideScreen$ = this.breakpointObserver

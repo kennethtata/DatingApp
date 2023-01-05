@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { Instance } from 'simple-peer';
 import { PeerData, UserInfo } from 'src/app/_models/peerData.interface';
+import { User } from '../_models/user';
 
 declare var SimplePeer: any;
 
@@ -10,8 +11,8 @@ declare var SimplePeer: any;
 })
 export class RtcService {
 
-  private users: BehaviorSubject<Array<UserInfo>>;
-  public users$: Observable<Array<UserInfo>>;
+  private users: BehaviorSubject<Array<User>>;
+  public users$: Observable<Array<User>>;
 
   private onSignalToSend = new Subject<PeerData>();
   public onSignalToSend$ = this.onSignalToSend.asObservable();
@@ -32,12 +33,12 @@ export class RtcService {
     this.users$ = this.users.asObservable();
   }
 
-  public newUser(user: UserInfo): void {
+  public newUser(user: User): void {
     this.users.next([...this.users.getValue(), user]);
   }
 
-  public disconnectedUser(user: UserInfo): void {
-    const filteredUsers = this.users.getValue().filter(x => x.connectionId === user.connectionId);
+  public disconnectedUser(user: User): void {
+    const filteredUsers = this.users.getValue().filter(x => x.userName === user.userName);
     this.users.next(filteredUsers);
   }
 

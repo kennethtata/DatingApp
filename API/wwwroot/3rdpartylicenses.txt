@@ -41,9 +41,6 @@ MIT
 @angular/router
 MIT
 
-@aspnet/signalr
-Apache-2.0
-
 @kolkov/ngx-gallery
 MIT
 MIT License
