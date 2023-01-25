@@ -31,7 +31,7 @@ const routes: Routes = [
       {path: 'lists', component: ListsComponent},
       {path: 'messages', component: MessagesComponent},
       {path: 'live', component: LiveComponent},
-      {path: 'live/:username', component: MemberDetailStreamComponent,resolve: {member: MemberDetailedResolver}},
+      {path: 'live/:username', component: LiveComponent,resolve: {member: MemberDetailedResolver}},
       {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]},
     ]
   },

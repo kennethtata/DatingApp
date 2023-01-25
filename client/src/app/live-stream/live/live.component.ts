@@ -1,8 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, Subscription, take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Pagination } from 'src/app/_models/pagination';
+import { PeerData, SignalInfo } from 'src/app/_models/peerData.interface';
+import { User } from 'src/app/_models/user';
 import { UserParams } from 'src/app/_models/userParams';
+import { AccountService } from 'src/app/_services/account.service';
+
 import { MembersService } from 'src/app/_services/members.service';
+import { PresenceService } from 'src/app/_services/presence.service';
+
 
 @Component({
   selector: 'app-live',
@@ -10,32 +19,11 @@ import { MembersService } from 'src/app/_services/members.service';
   styleUrls: ['./live.component.css']
 })
 export class LiveComponent implements OnInit {
-  members: Member;
+  member: Member;
   pagination: Pagination;
   userParams: UserParams;
 
-  constructor(private memberService: MembersService) {
-    this.userParams = this.memberService.getUserParams();
+  ngOnInit() {};
 
-   }
-
-  ngOnInit(): void {
-    this.loadMembers();
-  }
-
-
-  loadMembers(){
-    this.memberService.setUserParams(this.userParams);
-    this.memberService.getMembers(this.userParams).subscribe(response =>{
-      this.members = response.result;
-      this.pagination = response.pagination;
-    })
-  }
-
-  pageChanged(event: any){
-    this.userParams.pageNumber = event.page;
-    this.memberService.setUserParams(this.userParams);
-    this.loadMembers();
-  }
 
 }

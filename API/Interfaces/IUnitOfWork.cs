@@ -10,7 +10,6 @@ namespace API.Interfaces
 
         ILikesRepository LikesRepository { get; }
 
-        ILiveStreamRepository LiveStreamRepository { get; }
 
         Task<bool> Complete();
 
