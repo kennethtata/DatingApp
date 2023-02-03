@@ -53,7 +53,7 @@ namespace API.Data
                 userParams.PageNumber, userParams.PageSize);
         }
 
-        public async Task<IEnumerable<AppUser>> GetUserasync()
+        public async Task<IEnumerable<AppUser>> GetUserAsync()
         {
             return await _context.Users
                 .Include(p => p.Photos)

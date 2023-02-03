@@ -25,6 +25,11 @@ namespace API.Helpers
                 src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
                  .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src =>
                 src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
+           CreateMap<LiveStream, LiveStreamDto>()
+                .ForMember(dest => dest.StreamerPhotoUrl, opt => opt.MapFrom(src =>
+                src.Streamer.Photos.FirstOrDefault(x => x.IsMain).Url))
+                 .ForMember(dest => dest.StreamViewerPhotoUrl, opt => opt.MapFrom(src =>
+                src.OtherStreamer.Photos.FirstOrDefault(x => x.IsMain).Url));
            
         }
     }

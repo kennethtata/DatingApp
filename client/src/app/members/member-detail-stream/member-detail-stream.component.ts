@@ -4,7 +4,6 @@ import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { Subscription, take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Message } from 'src/app/_models/message';
-import { PeerData, SignalInfo } from 'src/app/_models/peerData.interface';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MessageService } from 'src/app/_services/message.service';

@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription, take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Pagination } from 'src/app/_models/pagination';
-import { PeerData, SignalInfo } from 'src/app/_models/peerData.interface';
 import { User } from 'src/app/_models/user';
 import { UserParams } from 'src/app/_models/userParams';
 import { AccountService } from 'src/app/_services/account.service';
