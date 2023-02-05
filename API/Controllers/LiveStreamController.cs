@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
-    [Route("[controller]")]
+
     [Authorize]
     public class LiveStreamController : BaseApiController
     {
@@ -26,14 +26,6 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        public async Task<ActionResult<LiveStream>> GetChatRoom(string chatroom)
-        {
-            if(_unitOfWork.LiveStreamRepository.GetChatRoom == null)
-            {
-               return NotFound();
-            }
-
-            return await _unitOfWork.LiveStreamRepository.GetChatRoom(chatroom);
-        }
+       
     }
 }

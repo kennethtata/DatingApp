@@ -19,20 +19,10 @@ namespace API.Data
             _mapper = mapper;
          }
 
-
-        public void CreateChatRoom(LiveStream chatRoom)
-        {
-           _context.LiveStreams.Add(chatRoom);
-        }
-
-        public void CreateGroup(Group group)
+        //once we start a chatroom we will create a group so other users can join 
+        public void AddChatRoomGroup(Group group)
         {
            _context.Groups.Add(group);
-        }
-
-        public void DeleteGroup(Group group)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<Connection> GetConnection(string connectionId)
@@ -40,6 +30,7 @@ namespace API.Data
             return await _context.Connections.FindAsync(connectionId);
         }
 
+        //used to remove user from chatroom group
         public async Task<Group> GetStreamGroupForConnection(string connectionId)
         {
             return await _context.Groups
@@ -48,6 +39,7 @@ namespace API.Data
                 .FirstOrDefaultAsync();
         }
 
+        //user can send message to group and also sue the message Hub to send message
         public async Task<Group> GetStreamGroup(string groupName)
         {
             return await _context.Groups
@@ -55,8 +47,10 @@ namespace API.Data
                 .FirstOrDefaultAsync(x => x.Name == groupName);
         }
 
-
-        public async Task<LiveStream> GetChatRoom(string roomName)
+        //us to join other user chatromm
+       //user select chat room to enter and we will get the chatroom name from the selected user and enter that user chat room
+        //this is similar to AddToGroup
+        public async Task<LiveStream> JoinChatRoom(string roomName)
         {
             return await _context.LiveStreams
                 .FirstOrDefaultAsync(x => x.ChatRoomName == roomName);

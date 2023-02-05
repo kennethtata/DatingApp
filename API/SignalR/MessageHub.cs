@@ -33,7 +33,7 @@ namespace API.SignalR
             var otherUser = httpContext.Request.Query["user"].ToString(); // for later....we could add an array and add users so we could have more than two use plus check is that user is liked by you and if so let them in
             var groupName = GetGroupName(Context.User.GetUserName(), otherUser);
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-            var group = await AddToGroup(groupName);//this is howwe add users to groups
+            var group = await AddToGroup(groupName);//this is how we add users to groups
             await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
 
             var messages = await _unitOfWork.MessageRepository.GetMessageThread(Context.User.GetUserName(), otherUser);

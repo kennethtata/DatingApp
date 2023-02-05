@@ -9,13 +9,10 @@ namespace API.Interfaces
 {
     public interface ILiveStreamRepository
     {
-        void CreateChatRoom(LiveStream chatRoom);
+        void AddChatRoomGroup(Group group);
 
-        Task<LiveStream> GetChatRoom(string roomName);
+        Task<LiveStream> JoinChatRoom(string roomName);
 
-        void CreateGroup(Group group);
-
-        void DeleteGroup(Group group);
 
         void RemoveConnection(Connection connection);
 
