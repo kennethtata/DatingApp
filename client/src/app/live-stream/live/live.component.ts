@@ -17,12 +17,32 @@ import { PresenceService } from 'src/app/_services/presence.service';
   templateUrl: './live.component.html',
   styleUrls: ['./live.component.css']
 })
-export class LiveComponent implements OnInit {
-  member: Member;
-  pagination: Pagination;
-  userParams: UserParams;
+export class LiveComponent implements OnInit { members: Partial<Member[]>;
+container ='liveStream';
+pageNumber =1;
+pageSize = 5;
+pagination: Pagination;
+loading = false;
 
-  ngOnInit() {};
+  constructor(private memberService: MembersService){}
 
+  ngOnInit() :void{
+   // this.loadLiveStreamers();
+  };
 
+  loadLiveStreamers()
+  {
+    this.loading = true;
+    this.memberService.getLikes(this.container,this.pageNumber, this.pageSize ).subscribe(response =>{
+    this.members = response.result;
+    this.pagination = response.pagination;
+    this.loading = false;
+    })
+  }
+
+  pageChanged(event: any)
+  {
+    this.pageNumber = event.page;
+    //this.loadLiveStreamers();
+  }
 }

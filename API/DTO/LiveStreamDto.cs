@@ -11,7 +11,6 @@ namespace API.DTO
     {
         public int Id { get; set; }
 
-        [Required]
         public string ChatRoomName {get;set;}
         public int streamerId { get; set; }
         

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class postgressInitial : Migration
+    public partial class PostgresInitials : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -185,11 +185,17 @@ namespace API.Data.Migrations
                 columns: table => new
                 {
                     SourceUserId = table.Column<int>(type: "integer", nullable: false),
-                    LikedUserId = table.Column<int>(type: "integer", nullable: false)
+                    LikedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DisLikeUserId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Likes", x => new { x.SourceUserId, x.LikedUserId });
+                    table.ForeignKey(
+                        name: "FK_Likes_AspNetUsers_DisLikeUserId",
+                        column: x => x.DisLikeUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Likes_AspNetUsers_LikedUserId",
                         column: x => x.LikedUserId,
@@ -201,6 +207,40 @@ namespace API.Data.Migrations
                         column: x => x.SourceUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LiveStreams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    StreamerId = table.Column<int>(type: "integer", nullable: false),
+                    StreamerUserName = table.Column<string>(type: "text", nullable: true),
+                    ChatRoomName = table.Column<string>(type: "text", nullable: true),
+                    StreamViewerId = table.Column<int>(type: "integer", nullable: false),
+                    StreamViewerUserName = table.Column<string>(type: "text", nullable: true),
+                    OtherStreamerId = table.Column<int>(type: "integer", nullable: true),
+                    Content = table.Column<string>(type: "text", nullable: true),
+                    StreamEnd = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    StreamStart = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    StreamDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    StreamDeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LiveStreams", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LiveStreams_AspNetUsers_OtherStreamerId",
+                        column: x => x.OtherStreamerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_LiveStreams_AspNetUsers_StreamerId",
+                        column: x => x.StreamerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -320,9 +360,24 @@ namespace API.Data.Migrations
                 column: "GroupName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Likes_DisLikeUserId",
+                table: "Likes",
+                column: "DisLikeUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Likes_LikedUserId",
                 table: "Likes",
                 column: "LikedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LiveStreams_OtherStreamerId",
+                table: "LiveStreams",
+                column: "OtherStreamerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LiveStreams_StreamerId",
+                table: "LiveStreams",
+                column: "StreamerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_RecipientId",
@@ -363,6 +418,9 @@ namespace API.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Likes");
+
+            migrationBuilder.DropTable(
+                name: "LiveStreams");
 
             migrationBuilder.DropTable(
                 name: "Messages");

@@ -191,6 +191,56 @@ namespace API.Data.Migrations
                     b.ToTable("Groups");
                 });
 
+            modelBuilder.Entity("API.Entities.LiveStream", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ChatRoomName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("OtherStreamerId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("StreamDeleteDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("StreamDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("StreamEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("StreamStart")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("StreamViewerId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("StreamViewerUserName")
+                        .HasColumnType("text");
+
+                    b.Property<int>("StreamerId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("StreamerUserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OtherStreamerId");
+
+                    b.HasIndex("StreamerId");
+
+                    b.ToTable("LiveStreams");
+                });
+
             modelBuilder.Entity("API.Entities.Message", b =>
                 {
                     b.Property<int>("Id")
@@ -270,7 +320,12 @@ namespace API.Data.Migrations
                     b.Property<int>("LikedUserId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("DisLikeUserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("SourceUserId", "LikedUserId");
+
+                    b.HasIndex("DisLikeUserId");
 
                     b.HasIndex("LikedUserId");
 
@@ -392,6 +447,23 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("API.Entities.LiveStream", b =>
+                {
+                    b.HasOne("API.Entities.AppUser", "OtherStreamer")
+                        .WithMany()
+                        .HasForeignKey("OtherStreamerId");
+
+                    b.HasOne("API.Entities.AppUser", "Streamer")
+                        .WithMany()
+                        .HasForeignKey("StreamerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OtherStreamer");
+
+                    b.Navigation("Streamer");
+                });
+
             modelBuilder.Entity("API.Entities.Message", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "Recipient")
@@ -424,6 +496,10 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.UserLike", b =>
                 {
+                    b.HasOne("API.Entities.AppUser", "DisLikeUser")
+                        .WithMany()
+                        .HasForeignKey("DisLikeUserId");
+
                     b.HasOne("API.Entities.AppUser", "LikedUser")
                         .WithMany("LikedByUsers")
                         .HasForeignKey("LikedUserId")
@@ -435,6 +511,8 @@ namespace API.Data.Migrations
                         .HasForeignKey("SourceUserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("DisLikeUser");
 
                     b.Navigation("LikedUser");
 

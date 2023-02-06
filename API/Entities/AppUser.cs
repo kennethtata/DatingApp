@@ -40,10 +40,10 @@ namespace API.Entities
         public ICollection<Message> MessagesReceived { get; set; }
 
         //a collection of different type of chat room the use can join
-        public ICollection<LiveStream> LiveStreamsStarted { get; set; }
+      //  public ICollection<LiveStream> LiveStreamsStarted { get; set; }
         
         //a collection of chat room a user can join
-        public ICollection<LiveStream> LiveStreamsJoined{ get; set; }
+        //public ICollection<LiveStream> LiveStreamsJoined{ get; set; }
 
 
         public ICollection<AppUserRole> UserRoles { get; set; }

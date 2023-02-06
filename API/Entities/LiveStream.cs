@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 
 namespace API.Entities
 {
@@ -10,9 +10,7 @@ namespace API.Entities
          //id of the live streamer
         public int StreamerId { get; set; }
         public string StreamerUserName { get; set; }
-
         //chat room name
-        [Required]
         public string ChatRoomName {get;set;}
 
         //the user that start the stream 
