@@ -16,6 +16,9 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { AdminGuard } from './_guards/admin.guard';
 import { LiveComponent } from './live-stream/live/live.component';
 import { MemberDetailStreamComponent } from './members/member-detail-stream/member-detail-stream.component';
+import { MemberLiveStreamComponent } from './live-stream/member-live-stream/member-live-stream.component';
+import { MemberVSLiveStreamComponent } from './live-stream/member-vs-live-stream/member-vs-live-stream.component';
+import { MemberLiveLetsChatComponent } from './live-stream/member-live-lets-chat/member-live-lets-chat.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -31,7 +34,9 @@ const routes: Routes = [
       {path: 'lists', component: ListsComponent},
       {path: 'messages', component: MessagesComponent},
       {path: 'live', component: LiveComponent},
-      {path: 'live/:username', component: LiveComponent,resolve: {member: MemberDetailedResolver}},
+      {path: 'live/livestream', component: MemberLiveStreamComponent,resolve: {member: MemberDetailedResolver}},
+      {path: 'live/vslivestream', component: MemberVSLiveStreamComponent,resolve: {member: MemberDetailedResolver}},
+      {path: 'live/liveletschat', component: MemberLiveLetsChatComponent,resolve: {member: MemberDetailedResolver}},
       {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]},
     ]
   },

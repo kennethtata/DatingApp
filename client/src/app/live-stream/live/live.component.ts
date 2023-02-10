@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription, take } from 'rxjs';
@@ -23,11 +23,13 @@ pageNumber =1;
 pageSize = 5;
 pagination: Pagination;
 loading = false;
+@Input() member: Member;
 
   constructor(private memberService: MembersService){}
 
   ngOnInit() :void{
    // this.loadLiveStreamers();
+   this.loadMember();
   };
 
   loadLiveStreamers()
@@ -40,9 +42,15 @@ loading = false;
     })
   }
 
+  loadMember(){
+    this.memberService.getMember(this.member.userName).subscribe(member => {
+      this.member = member;
+    })
+  }
+
   pageChanged(event: any)
   {
     this.pageNumber = event.page;
-    //this.loadLiveStreamers();
+    this.loadMember();
   }
 }

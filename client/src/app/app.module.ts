@@ -37,6 +37,10 @@ import { LiveComponent } from './live-stream/live/live.component';
 import { MemberStreamComponent } from './members/member-stream/member-stream.component';
 import { MemberDetailStreamComponent } from './members/member-detail-stream/member-detail-stream.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { LiveStreamCardComponent } from './live-stream/live-stream-card/live-stream-card.component';
+import { MemberLiveStreamComponent } from './live-stream/member-live-stream/member-live-stream.component';
+import { MemberVSLiveStreamComponent } from './live-stream/member-vs-live-stream/member-vs-live-stream.component';
+import { MemberLiveLetsChatComponent } from './live-stream/member-live-lets-chat/member-live-lets-chat.component';
 
 
 
@@ -67,7 +71,11 @@ import { LayoutModule } from '@angular/cdk/layout';
     ConfirmDialogComponent,
     LiveComponent,
     MemberStreamComponent,
-    MemberDetailStreamComponent
+    MemberDetailStreamComponent,
+    LiveStreamCardComponent,
+    MemberLiveStreamComponent,
+    MemberVSLiveStreamComponent,
+    MemberLiveLetsChatComponent
   ],
   imports: [
     BrowserModule,

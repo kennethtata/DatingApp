@@ -1,0 +1,19 @@
+<p>member-live-stream works!</p>
+
+<div class="row mt-4">
+  <div class="col">
+    <h5 *ngIf="userVideo">{{userVideo}}</h5>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col">
+    <video #videoPlayer width="950" height="600" controls></video>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-2" *ngFor="let member of members">
+      <app-live-stream-card [member]="member"></app-live-stream-card>
+    </div>
+  </div>
+
+</div>
