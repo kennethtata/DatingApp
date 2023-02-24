@@ -28,8 +28,8 @@ loading = false;
   constructor(private memberService: MembersService){}
 
   ngOnInit() :void{
-   // this.loadLiveStreamers();
-   this.loadMember();
+   this.loadLiveStreamers();
+  // this.loadMember();
   };
 
   loadLiveStreamers()
@@ -51,6 +51,6 @@ loading = false;
   pageChanged(event: any)
   {
     this.pageNumber = event.page;
-    this.loadMember();
+    this.loadLiveStreamers()
   }
 }

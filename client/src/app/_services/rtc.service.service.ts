@@ -5,6 +5,7 @@ import { Instance } from 'simple-peer';
 import { PeerData } from '../_models/peerData.interface';
 import { HubConnection,HubConnectionBuilder} from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
+import { Member } from '../_models/member';
 
 declare var SimplePeer: any;
 
@@ -12,8 +13,8 @@ declare var SimplePeer: any;
   providedIn: 'root'
 })
 export class RtcServiceService {
-  private users: BehaviorSubject<Array<User>>;
-  public users$: Observable<Array<User>>;
+  private users: BehaviorSubject<Array<Member>>;
+  public users$: Observable<Array<Member>>;
 
   private onSignalToSend = new Subject<PeerData>();
   public onSignalToSend$ = this.onSignalToSend.asObservable();
@@ -37,19 +38,13 @@ export class RtcServiceService {
 
 
 
-  constructor(private user: User) {
+  constructor(private user: Member) {
     this.users = new BehaviorSubject([]);
     this.users$ = this.users.asObservable();
-    //this.hubConnection = new HubConnectionBuilder()
-    //.withUrl(this.hubUrl + 'livestream',{
-     // accessTokenFactory: () => user.token
-    //})
-    //.withAutomaticReconnect()
-    //.build()
 
   }
 
-  public newUser(user: User): void {
+  public newUser(user: Member): void {
     this.users.next([...this.users.getValue(), user]);
   }
 
@@ -93,7 +88,7 @@ export class RtcServiceService {
     this.currentPeer.send(message);
   }
 
-  public disconnectedUser(user: User): void {
+  public disconnectedUser(user: Member): void {
     const filteredUsers = this.users.getValue().filter(x => x.userName === user.userName);
     this.users.next(filteredUsers);
   }

@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../_models/user';
 import { SignalInfo } from '../_models/peerData.interface';
+import { Member } from '../_models/member';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,13 @@ export class SignalrLiveService {
 
 
 
-  private newPeer = new Subject<User>();
+  private newPeer = new Subject<Member>();
   public newPeer$ = this.newPeer.asObservable();
 
-  private helloAnswer = new Subject<User>();
+  private helloAnswer = new Subject<Member>();
   public helloAnswer$ = this.helloAnswer.asObservable();
 
-  private disconnectedPeer = new Subject<User>();
+  private disconnectedPeer = new Subject<Member>();
   public disconnectedPeer$ = this.disconnectedPeer.asObservable();
 
   private signal = new Subject<SignalInfo>();
@@ -47,6 +48,8 @@ export class SignalrLiveService {
     this.hubConnection.start()
     .catch(error => console.log(error))
     .finally(() => this.busyService.idle());
+
+    console.log('Connection started');
 
     this.hubConnection.on('NewUserArrived', (data) => {
       this.newPeer.next(JSON.parse(data));

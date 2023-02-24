@@ -12,7 +12,7 @@
 
   <div class="row mt-3">
     <div class="col-2" *ngFor="let member of members">
-      <app-live-stream-card [member]="member"></app-live-stream-card>
+      <app-live-stream-card (userSelected)="onUserSelected($event)" [member]="member"></app-live-stream-card>
     </div>
   </div>
 
