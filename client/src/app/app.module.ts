@@ -41,6 +41,7 @@ import { LiveStreamCardComponent } from './live-stream/live-stream-card/live-str
 import { MemberLiveStreamComponent } from './live-stream/member-live-stream/member-live-stream.component';
 import { MemberVSLiveStreamComponent } from './live-stream/member-vs-live-stream/member-vs-live-stream.component';
 import { MemberLiveLetsChatComponent } from './live-stream/member-live-lets-chat/member-live-lets-chat.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 
 
@@ -75,7 +76,8 @@ import { MemberLiveLetsChatComponent } from './live-stream/member-live-lets-chat
     LiveStreamCardComponent,
     MemberLiveStreamComponent,
     MemberVSLiveStreamComponent,
-    MemberLiveLetsChatComponent
+    MemberLiveLetsChatComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,

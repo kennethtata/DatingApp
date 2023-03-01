@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+
 import { Observable } from 'rxjs';
 import { Member } from 'src/app/_models/member';
+import { UserInfo } from 'src/app/_models/peerData.interface';
 import { User } from 'src/app/_models/user';
 import { MembersService } from 'src/app/_services/members.service';
 import { PresenceService } from 'src/app/_services/presence.service';
@@ -18,17 +20,20 @@ export class LiveStreamCardComponent implements OnInit {
 
   constructor(private memberService: MembersService, private toastr: ToastrService, public presence: PresenceService,private rtcService: RtcServiceService) { }
 
-  @Output() userSelected: EventEmitter<Member> = new EventEmitter();
+  //@Output() userSelected: EventEmitter<UserInfo> = new EventEmitter();
 
-  public users$: Observable<Array<Member>>;
+ // public users$: Observable<Array<UserInfo>>;
+
 
 
   ngOnInit() {
-    this.users$ = this.rtcService.users$;
+   // this.users$ = this.rtcService.users$;
+
+
   }
 
-  public userClicked(user: Member) {
-    this.userSelected.emit(user);
-  }
+  //public userClicked(user: UserInfo) {
+   // this.userSelected.emit(user);
+  //}
 
 }

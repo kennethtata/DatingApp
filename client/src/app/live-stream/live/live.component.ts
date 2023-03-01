@@ -29,7 +29,6 @@ loading = false;
 
   ngOnInit() :void{
    this.loadLiveStreamers();
-  // this.loadMember();
   };
 
   loadLiveStreamers()

@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription, take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Pagination } from 'src/app/_models/pagination';
-import { PeerData, SignalInfo } from 'src/app/_models/peerData.interface';
+import { ChatMessage, PeerData, SignalInfo, UserInfo } from 'src/app/_models/peerData.interface';
 import { User } from 'src/app/_models/user';
 import { UserParams } from 'src/app/_models/userParams';
 import { AccountService } from 'src/app/_services/account.service';
@@ -40,16 +40,15 @@ export class MemberLiveStreamComponent implements OnInit { members: Partial<Memb
   userParams: UserParams;
 
  user:User;
-  //public messages: Array<ChatMessage>;
+ public messages: Array<ChatMessage>;
 
   public mediaError = (): void => { console.error(`Can't get user media`); };
 
   constructor(private memberService: MembersService, private breakpointObserver: BreakpointObserver, private accountService: AccountService, public platform: Platform,private rtcService: RtcServiceService, private signalR: SignalrLiveService) {
-    this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+   // this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.userParams = this.memberService.getUserParams();
 
   }
-
 
 
   loadMembers(){
@@ -62,33 +61,37 @@ export class MemberLiveStreamComponent implements OnInit { members: Partial<Memb
 
 
   ngOnInit() {
-    //this.messages = new Array();
+    this.messages = new Array();
 
     this.loadMembers();
-
-    this.subscriptions.add(this.signalR.newPeer$.subscribe((user: Member) => {
+    //this.currentUser = this.user.userName;
+    this.subscriptions.add(this.signalR.newPeer$.subscribe((user: UserInfo) => {
       this.rtcService.newUser(user);
-      this.signalR.sayHello(this.currentUser, user.knownAs);
+      this.signalR.sayHello(this.currentUser, user.connectionId);
+      console.log("the user name is " + user.userName + " the connectionId is " + user.connectionId)
     }));
 
-    this.subscriptions.add(this.signalR.helloAnswer$.subscribe((user: Member) => {
+    this.subscriptions.add(this.signalR.helloAnswer$.subscribe((user: UserInfo) => {
       this.rtcService.newUser(user);
+      console.log("in the hellowansiwer method")
     }));
 
-    this.subscriptions.add(this.signalR.disconnectedPeer$.subscribe((user: Member) => {
+    this.subscriptions.add(this.signalR.disconnectedPeer$.subscribe((user: UserInfo) => {
       this.rtcService.disconnectedUser(user);
     }));
 
     this.subscriptions.add(this.signalR.signal$.subscribe((signalData: SignalInfo) => {
       this.rtcService.signalPeer(signalData.user, signalData.signal, this.stream);
+      console.log("sneding signal to  other user")
     }));
 
     this.subscriptions.add(this.rtcService.onSignalToSend$.subscribe((data: PeerData) => {
       this.signalR.sendSignalToUser(data.data, data.id);
+      console.log("this is the signal to send ,method")
     }));
 
     this.subscriptions.add(this.rtcService.onData$.subscribe((data: PeerData) => {
-     // this.messages = [...this.messages, { own: false, message: data.data }];
+      this.messages = [...this.messages, { own: false, message: data.data }];
       console.log(`Data from user ${data.id}: ${data.data}`);
     }));
 
@@ -101,15 +104,16 @@ export class MemberLiveStreamComponent implements OnInit { members: Partial<Memb
   }
 
 
-  public onUserSelected(userInfo: Member) {
-    const peer = this.rtcService.createPeer(this.stream, userInfo.knownAs, true);
+  public onUserSelected(userInfo: UserInfo) {
+    const peer = this.rtcService.createPeer(this.stream, userInfo.connectionId, true);
     this.rtcService.currentPeer = peer;
-   
+    console.log("the selected user name is " + userInfo.userName);
+
   }
 
   public async saveUsername(): Promise<void> {
     try {
-      await this.signalR.startConnection(this.user);
+      await this.signalR.startConnection(this.currentUser);
       this.stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     } catch (error) {
       console.error(`Can't join room, error ${error}`);
@@ -118,7 +122,7 @@ export class MemberLiveStreamComponent implements OnInit { members: Partial<Memb
 
   public sendMessage() {
     this.rtcService.sendMessage(this.dataString);
-    //this.messages = [...this.messages, { own: true, message: this.dataString }];
+    this.messages = [...this.messages, { own: true, message: this.dataString }];
     this.dataString = null;
   }
   ngOnDestroy() {

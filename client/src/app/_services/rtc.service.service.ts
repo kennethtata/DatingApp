@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { User } from '../_models/user';
 import { Instance } from 'simple-peer';
-import { PeerData } from '../_models/peerData.interface';
-import { HubConnection,HubConnectionBuilder} from '@microsoft/signalr';
+import { PeerData, UserInfo } from '../_models/peerData.interface';
 import { environment } from 'src/environments/environment';
-import { Member } from '../_models/member';
+
 
 declare var SimplePeer: any;
 
@@ -13,8 +11,9 @@ declare var SimplePeer: any;
   providedIn: 'root'
 })
 export class RtcServiceService {
-  private users: BehaviorSubject<Array<Member>>;
-  public users$: Observable<Array<Member>>;
+
+  private users: BehaviorSubject<Array<UserInfo>>;
+  public users$: Observable<Array<UserInfo>>;
 
   private onSignalToSend = new Subject<PeerData>();
   public onSignalToSend$ = this.onSignalToSend.asObservable();
@@ -33,29 +32,26 @@ export class RtcServiceService {
   baseUrl = environment.apiUrl;
   hubUrl = environment.hubUrl;
 
-  private hubConnection: HubConnection;
-
-
-
-
-  constructor(private user: Member) {
+  constructor() {
     this.users = new BehaviorSubject([]);
     this.users$ = this.users.asObservable();
 
   }
 
-  public newUser(user: Member): void {
+  public newUser(user: UserInfo): void {
     this.users.next([...this.users.getValue(), user]);
+    console.log("in the RTC on new User  method" + "the user is " + user + "and the user.Getvalue is " + this.users.getValue())
   }
-
 
 
   public createPeer(stream, userId: string, initiator: boolean): Instance {
     const peer = new SimplePeer({ initiator, stream });
+    console.log("in the RTC on create Peer and calling Simple Peer  method");
 
     peer.on('signal', data => {
       const stringData = JSON.stringify(data);
       this.onSignalToSend.next({ id: userId, data: stringData });
+      console.log("in the RTC on cstreamnnect  method");
     });
 
     peer.on('stream', data => {
@@ -65,6 +61,7 @@ export class RtcServiceService {
 
     peer.on('connect', () => {
       this.onConnect.next({ id: userId, data: null });
+      console.log("in the RTC on connect  method");
     });
 
     peer.on('data', data => {
@@ -78,6 +75,7 @@ export class RtcServiceService {
     const signalObject = JSON.parse(signal);
     if (this.currentPeer) {
       this.currentPeer.signal(signalObject);
+      console.log("in the RTC singnalPeer method");
     } else {
       this.currentPeer = this.createPeer(stream, userId, false);
       this.currentPeer.signal(signalObject);
@@ -86,22 +84,16 @@ export class RtcServiceService {
 
   public sendMessage(message: string) {
     this.currentPeer.send(message);
+    console.log("in the RTC send message method");
   }
 
-  public disconnectedUser(user: Member): void {
-    const filteredUsers = this.users.getValue().filter(x => x.userName === user.userName);
+  public disconnectedUser(user: UserInfo): void {
+    const filteredUsers = this.users.getValue().filter(x => x.connectionId === user.connectionId);
     this.users.next(filteredUsers);
   }
 
 
-  stopHubConnection()
-  {
-    if(this.hubConnection)
-    {
 
-      this.hubConnection.stop();
-    }
-  }
 
 }
 

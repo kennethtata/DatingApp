@@ -3,10 +3,10 @@ export interface PeerData {
   data: any;
 }
 
-//export interface UserInfo {
- // userName: string;
- // connectionId: string;
-//}
+export interface UserInfo {
+  userName: string;
+  connectionId: string;
+}
 
 export interface SignalInfo {
   user: string;

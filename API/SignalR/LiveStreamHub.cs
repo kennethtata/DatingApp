@@ -22,21 +22,21 @@ namespace API.SignalR
             _tracker = tracker;
         }
 
-       // public override async Task OnConnectedAsync()
-       // {
-         //   var httpContext = Context.GetHttpContext(); 
-            //var groupName = GetGroupName(Context.User.GetUserName(), "LiveStream");
-//            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-         //   var group = await AddToChatRoomGroup(groupName);
-         //   await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
+          public override async Task OnConnectedAsync()
+          {
+              var httpContext = Context.GetHttpContext(); 
+             var groupName = GetGroupName(Context.User.GetUserName(), "LiveStream");
+              await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+            var group = await AddToChatRoomGroup(groupName);
+             await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
 
-         //   if(_unitOfWork.HasChanges())
-          //  {
-          //      await _unitOfWork.Complete();
-          //  }
-//
-           // await Clients.All.SendAsync("StartLiveChat");
-       // }
+             if(_unitOfWork.HasChanges())
+              {
+                  await _unitOfWork.Complete();
+              }
+
+             await Clients.All.SendAsync("NewUserArrived");
+          }
 
          public override async Task OnDisconnectedAsync(Exception exception)
         {
@@ -87,13 +87,13 @@ namespace API.SignalR
 
         public async Task NewUser(string username)
         {
-            var userInfo = new AppUser() { UserName = username, KnownAs = Context.ConnectionId };
+            var userInfo = new UserInfo() { userName = username, ConnectionId = Context.ConnectionId };
             await Clients.Others.SendAsync("NewUserArrived", JsonSerializer.Serialize(userInfo));
         }
 
         public async Task HelloUser(string userName, string user)
         {
-            var userInfo = new AppUser() { UserName = userName, KnownAs = Context.ConnectionId };
+            var userInfo = new UserInfo() { userName = userName, ConnectionId = Context.ConnectionId };
             await Clients.Client(user).SendAsync("UserSaidHello", JsonSerializer.Serialize(userInfo));
         }
 
