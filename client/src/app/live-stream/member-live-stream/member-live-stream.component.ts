@@ -25,7 +25,7 @@ export class MemberLiveStreamComponent implements OnInit { members: Partial<Memb
 
   public subscriptions = new Subscription();
 
-  private stream;
+  private stream: string | MediaStream;
 
   public currentUser: string;
 
@@ -45,7 +45,7 @@ export class MemberLiveStreamComponent implements OnInit { members: Partial<Memb
   public mediaError = (): void => { console.error(`Can't get user media`); };
 
   constructor(private memberService: MembersService, private breakpointObserver: BreakpointObserver, private accountService: AccountService, public platform: Platform,private rtcService: RtcServiceService, private signalR: SignalrLiveService) {
-   // this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+    this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.userParams = this.memberService.getUserParams();
 
   }
@@ -64,25 +64,27 @@ export class MemberLiveStreamComponent implements OnInit { members: Partial<Memb
     this.messages = new Array();
 
     this.loadMembers();
-    //this.currentUser = this.user.userName;
+    this.currentUser = this.user.userName;
     this.subscriptions.add(this.signalR.newPeer$.subscribe((user: UserInfo) => {
+
       this.rtcService.newUser(user);
       this.signalR.sayHello(this.currentUser, user.connectionId);
-      console.log("the user name is " + user.userName + " the connectionId is " + user.connectionId)
+      console.log("the current us is " + this.currentUser+ " the logged in user is user name is " + user.userName + " the connectionId is " + user.connectionId)
     }));
 
     this.subscriptions.add(this.signalR.helloAnswer$.subscribe((user: UserInfo) => {
       this.rtcService.newUser(user);
-      console.log("in the hellowansiwer method")
+      console.log("in the NewUser method the passed in user is " + user)
     }));
 
     this.subscriptions.add(this.signalR.disconnectedPeer$.subscribe((user: UserInfo) => {
       this.rtcService.disconnectedUser(user);
+      console.log("in the disconnect method disconnecting user " + user)
     }));
 
     this.subscriptions.add(this.signalR.signal$.subscribe((signalData: SignalInfo) => {
       this.rtcService.signalPeer(signalData.user, signalData.signal, this.stream);
-      console.log("sneding signal to  other user")
+      console.log("sneding signal to  other user in the signalPeer method the passed in user is " + signalData.user + " and the signal is  " + signalData.signal + " the stream is " + this.stream)
     }));
 
     this.subscriptions.add(this.rtcService.onSignalToSend$.subscribe((data: PeerData) => {

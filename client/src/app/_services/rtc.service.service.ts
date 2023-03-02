@@ -44,17 +44,17 @@ export class RtcServiceService {
   }
 
 
-  public createPeer(stream, userId: string, initiator: boolean): Instance {
+  public createPeer(stream: any, userId: string, initiator: boolean): Instance {
     const peer = new SimplePeer({ initiator, stream });
-    console.log("in the RTC on create Peer and calling Simple Peer  method");
+    console.log("in the RTC CreatePeer and calling SimplePeer  method");
 
-    peer.on('signal', data => {
+    peer.on('signal', (data: any) => {
       const stringData = JSON.stringify(data);
       this.onSignalToSend.next({ id: userId, data: stringData });
-      console.log("in the RTC on cstreamnnect  method");
+      console.log("in the RTC on signalToSend  method");
     });
 
-    peer.on('stream', data => {
+    peer.on('stream', (data: any) => {
       console.log('on stream', data);
       this.onStream.next({ id: userId, data });
     });
@@ -64,7 +64,7 @@ export class RtcServiceService {
       console.log("in the RTC on connect  method");
     });
 
-    peer.on('data', data => {
+    peer.on('data', (data: any) => {
       this.onData.next({ id: userId, data });
     });
 
