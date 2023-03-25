@@ -14,13 +14,21 @@ import { AccountService } from '../_services/account.service';
 })
 export class NavComponent implements OnInit {
 model: any = {}
+navbarOpen = false;
 
 
 
-  constructor(public accountService: AccountService, private router: Router,private toastr: ToastrService) { }
+  constructor(
+    public accountService: AccountService,
+    private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
+  }
+
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
   }
 
   login(){

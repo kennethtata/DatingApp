@@ -8,19 +8,14 @@
       </div>
     </div>
 
- <div class="card border-primary mb-3">
-  <div class="card-img-wrapper">
-    <div class="mainRunner">
-      <video class="img1" #videoPlayer width="600" height="600"  class="card-img-top" controls> </video>
-    <video class="img=2" #videoPlayer width="200" height="200" controls></video>
-
-    </div>
-      <ul class="list-inline member-icons animate text-center">
-          <li class="list-inline-item">
-          </li>
-      </ul>
-
-  </div>
+    <div class="row">
+      <div class="column">
+        <video #videoPlayer  style="width:100%" controls></video>
+      </div>
+      <div class="column">
+        <video #videoPlayer style="width:100%" controls></video>
+      </div>
+     </div>
 
   <div class="row mt-3">
     <div class="col-2" *ngFor="let member of members">
@@ -29,4 +24,4 @@
   </div>
 
 </div>
-</div>
+

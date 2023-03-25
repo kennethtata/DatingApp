@@ -1,20 +1,19 @@
 <p>member-vs-live-stream works!</p>
 <div class="card border-primary mb-3">
   <div class="card-img-wrapper">
-<div class="row mt-4">
-  <div class="col">
+<div class="row">
+  <div class="column">
     <h5 *ngIf="userVideo">{{userVideo}}</h5>
   </div>
 </div>
-<div class="row mt-4">
-  <div class="col">
-    <video #videoPlayer width="600" height="600" controls></video>
+<div class="row">
+  <div class="column">
+    <video #videoPlayer  style="width:100%" controls></video>
   </div>
-  <div class="col">
-    <video #videoPlayer width="600" height="600" controls></video>
+  <div class="column">
+    <video #videoPlayer style="width:100%" controls></video>
   </div>
  </div>
-
 
 
   <div class="row mt-3">

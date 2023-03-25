@@ -1,8 +1,15 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container">
-    <a class="navbar-brand" routerLink="/" routerLinkActive="active">JUST DO YOU</a>
 
-      <ul class="navbar-nav me-auto" >
+
+    <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <a class="navbar-brand" routerLink="/" routerLinkActive="active">JUST DO YOU</a>
+    
+    <div class="collapse navbar-collapse" [ngClass]="{ 'show': navbarOpen }">
+      <ul class="navbar-nav mr-auto" >
         <ng-container  *ngIf="accountService.currentUser$ | async">
           <li class="nav-item">
             <a class="nav-link"  routerLink='/members' routerLinkActive='active'>Matches</a>
@@ -25,7 +32,7 @@
         </ng-container>
 
       </ul>
-
+    </div>
       <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
         <img src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.userName}}">&nbsp;
           <a class="dropdown-toggle text-light ml-2" dropdownToggle> Welcome {{user.knownAs || user.userName | titlecase}} </a>
